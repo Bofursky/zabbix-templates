@@ -1,0 +1,167 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 9e9818842cf44b0ea077a2f1f46ca91f
+      name: Templates/Lenovo Storage
+  templates:
+    - uuid: fd3f1feaa45a42c58111880fc8059a69
+      template: Lenovo ThinkSystem DE4000 SNMP
+      name: Lenovo ThinkSystem DE4000 SNMP
+      description: |
+        Monitoring Lenovo ThinkSystem DE4000 przez odpytywanie SNMP na porcie UDP 161.
+        Skonfiguruj interfejs SNMP hosta z adresem zarządzającym kontrolera i danymi dostępu zgodnymi z konfiguracją macierzy.
+        OID producenta pochodzą z ES-NETAPP-06-MIB, a systemowe z SNMPv2-MIB (RFC 3418).
+        Sprawdź odczyt stanu macierzy w Najnowszych danych. Obsługa gałęzi producenta zależy od urządzenia i firmware.
+        Stan jest zbiorczy. MIB nie zawiera tabel dysków, kontrolerów, zasilaczy ani woluminów.
+      groups:
+        - name: Templates/Lenovo Storage
+      items:
+        - uuid: 34ee300b25c248cbbf3ebbc2ea7ccc73
+          name: 'Opis systemu'
+          type: SNMP_AGENT
+          snmp_oid: '1.3.6.1.2.1.1.1.0'
+          key: 'lenovo.de4000[sysDescr]'
+          delay: 1m
+          history: 30d
+          trends: '0'
+          value_type: CHAR
+          description: 'sysDescr. Opis systemu z grupy systemowej SNMPv2-MIB. Służy również do kontroli dostępności odczytu SNMP.'
+          triggers:
+            - uuid: 98fbd7301f7c493e84c96c1d4500d443
+              expression: 'nodata(/Lenovo ThinkSystem DE4000 SNMP/lenovo.de4000[sysDescr],5m)=1'
+              name: 'Lenovo DE4000: brak danych z odczytu SNMP przez 5 minut'
+              priority: HIGH
+              description: 'Zabbix nie otrzymuje wartości sysDescr. Sprawdź interfejs SNMP hosta, ustawienia dostępu i komunikację z adresem zarządzającym macierzy.'
+        - uuid: bcaf8acf9eca4f6bae5a162dc0918e99
+          name: 'Nazwa systemowa SNMP'
+          type: SNMP_AGENT
+          snmp_oid: '1.3.6.1.2.1.1.5.0'
+          key: 'lenovo.de4000[sysName]'
+          delay: 1h
+          history: 30d
+          trends: '0'
+          value_type: CHAR
+          description: 'sysName. Nazwa skonfigurowana w ustawieniach SNMP macierzy.'
+        - uuid: fd1832c1415c4417a186a640bcc4e710
+          name: 'Lokalizacja macierzy'
+          type: SNMP_AGENT
+          snmp_oid: '1.3.6.1.2.1.1.6.0'
+          key: 'lenovo.de4000[sysLocation]'
+          delay: 1h
+          history: 30d
+          trends: '0'
+          value_type: CHAR
+          description: 'sysLocation. Lokalizacja skonfigurowana w ustawieniach SNMP macierzy.'
+        - uuid: d225011cce794a3fbb1dc3f7e340526f
+          name: 'Nazwa macierzy'
+          type: SNMP_AGENT
+          snmp_oid: '1.3.6.1.4.1.789.1123.2.500.1.1.0'
+          key: 'lenovo.de4000[ssStorageArrayName]'
+          delay: 1h
+          history: 30d
+          trends: '0'
+          value_type: CHAR
+          description: 'ssStorageArrayName. Nazwa macierzy raportowana przez firmware.'
+        - uuid: 0122a7fce53c4835976d5e1a937139f3
+          name: 'WWID macierzy'
+          type: SNMP_AGENT
+          snmp_oid: '1.3.6.1.4.1.789.1123.2.500.1.2.0'
+          key: 'lenovo.de4000[ssStorageArrayWWID]'
+          delay: 1h
+          history: 30d
+          trends: '0'
+          value_type: CHAR
+          description: 'ssStorageArrayWWID. Identyfikator WWID macierzy.'
+        - uuid: 2f70ed9c4520466796516104070328ea
+          name: 'Numer seryjny obudowy'
+          type: SNMP_AGENT
+          snmp_oid: '1.3.6.1.4.1.789.1123.2.500.1.3.0'
+          key: 'lenovo.de4000[ssChassisSerialNumber]'
+          delay: 1h
+          history: 30d
+          trends: '0'
+          value_type: CHAR
+          description: 'ssChassisSerialNumber. Numer seryjny obudowy macierzy.'
+        - uuid: a67a88b091c7486f95675127fb942c09
+          name: 'Identyfikator producenta'
+          type: SNMP_AGENT
+          snmp_oid: '1.3.6.1.4.1.789.1123.2.500.1.4.0'
+          key: 'lenovo.de4000[ssVendorID]'
+          delay: 1h
+          history: 30d
+          trends: '0'
+          value_type: CHAR
+          description: 'ssVendorID. Identyfikator producenta raportowany przez urządzenie.'
+        - uuid: d1a390d8b18b48a4938c4bf6992d82c6
+          name: 'Identyfikator produktu'
+          type: SNMP_AGENT
+          snmp_oid: '1.3.6.1.4.1.789.1123.2.500.1.5.0'
+          key: 'lenovo.de4000[ssProductID]'
+          delay: 1h
+          history: 30d
+          trends: '0'
+          value_type: CHAR
+          description: 'ssProductID. Identyfikator produktu raportowany przez urządzenie.'
+        - uuid: b46eec97d2414926b55da09e29be0fc1
+          name: 'Nazwa modelu'
+          type: SNMP_AGENT
+          snmp_oid: '1.3.6.1.4.1.789.1123.2.500.1.6.0'
+          key: 'lenovo.de4000[ssModelName]'
+          delay: 1h
+          history: 30d
+          trends: '0'
+          value_type: CHAR
+          description: 'ssModelName. Nazwa modelu zdefiniowana przez producenta.'
+        - uuid: a2778a4e549d483b9d4dcd16368da6eb
+          name: 'Stan macierzy'
+          type: SNMP_AGENT
+          snmp_oid: '1.3.6.1.4.1.789.1123.2.500.1.7.0'
+          key: 'lenovo.de4000[ssStorageArrayNeedsAttention]'
+          delay: 1m
+          history: 30d
+          trends: '0'
+          value_type: UNSIGNED
+          description: 'ssStorageArrayNeedsAttention. Zbiorczy stan macierzy. MIB definiuje 0 jako Optimal i 1 jako Needs Attention.'
+          valuemap:
+            name: Lenovo DE4000 - stan macierzy
+          triggers:
+            - uuid: a3fa06223415498185ff50daf141da1c
+              expression: 'last(/Lenovo ThinkSystem DE4000 SNMP/lenovo.de4000[ssStorageArrayNeedsAttention])=1'
+              name: 'Lenovo DE4000: macierz wymaga interwencji'
+              priority: HIGH
+              description: 'Macierz raportuje Needs Attention. Szczegóły przyczyny sprawdź w ThinkSystem System Manager.'
+            - uuid: f3610690684e49bca83dd0afc659c152
+              expression: 'nodata(/Lenovo ThinkSystem DE4000 SNMP/lenovo.de4000[ssStorageArrayNeedsAttention],5m)=1 and nodata(/Lenovo ThinkSystem DE4000 SNMP/lenovo.de4000[sysDescr],5m)=0'
+              name: 'Lenovo DE4000: brak odczytu stanu macierzy'
+              priority: WARNING
+              description: 'Zabbix odbiera sysDescr, ale nie otrzymuje stanu macierzy. Sprawdź obsługę OID producenta w firmware i dostęp SNMP do tej gałęzi.'
+        - uuid: 37f79c67decb4e93840bae6bfef6cce5
+          name: 'Czas działania agenta SNMP'
+          type: SNMP_AGENT
+          snmp_oid: '1.3.6.1.2.1.1.3.0'
+          key: 'lenovo.de4000[sysUpTime]'
+          delay: 1m
+          history: 30d
+          trends: '0'
+          value_type: UNSIGNED
+          units: uptime
+          description: 'sysUpTime z SNMPv2-MIB. Czas od uruchomienia podsystemu zarządzania SNMP na odpytywanym kontrolerze.'
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          triggers:
+            - uuid: cdb69fcb26e448e4b3a7f4d738fc8daf
+              expression: 'last(/Lenovo ThinkSystem DE4000 SNMP/lenovo.de4000[sysUpTime])<10m'
+              name: 'Lenovo DE4000: {HOST.NAME} — agent SNMP działa krócej niż 10 minut'
+              priority: WARNING
+              description: 'Podsystem SNMP kontrolera raportuje mniej niż 10 minut działania. Taki odczyt może wystąpić również po przepełnieniu licznika TimeTicks.'
+              manual_close: 'YES'
+      valuemaps:
+        - uuid: a9b416f73fce44e8a7c97aeb10042a8f
+          name: Lenovo DE4000 - stan macierzy
+          mappings:
+            - value: '0'
+              newvalue: Optymalny
+            - value: '1'
+              newvalue: Wymaga interwencji
