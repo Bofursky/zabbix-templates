@@ -8,6 +8,9 @@ zabbix_export:
       template: "Dell Storage SC by SNMP"
       name: "Dell Storage SC by SNMP"
       description: "Monitorowanie Dell Storage Center (Compellent) według DELL-STORAGE-SC-MIB. W konfiguracji hosta dodaj interfejs SNMP z adresem zarządzającym macierzy oraz danymi dostępu SNMPv2c lub SNMPv3. Dostępność tabel zależy od modelu i wersji SCOS. Przestrzeń nieprzydzielona odpowiada pozycji Unallocated disk space w interfejsie Storage Center."
+      vendor:
+        name: "https://github.com/Bofursky/zabbix-templates/blob/main/templates/storage/7.0/dell-storage-sc-snmp-zabbix-7.0.yaml"
+        version: "7.0-1"
       groups:
         - name: "Templates/SAN"
       tags:

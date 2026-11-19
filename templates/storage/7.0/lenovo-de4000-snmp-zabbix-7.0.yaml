@@ -13,6 +13,9 @@ zabbix_export:
         OID producenta pochodzą z ES-NETAPP-06-MIB, a systemowe z SNMPv2-MIB (RFC 3418).
         Sprawdź odczyt stanu macierzy w Najnowszych danych. Obsługa gałęzi producenta zależy od urządzenia i firmware.
         Stan jest zbiorczy. MIB nie zawiera tabel dysków, kontrolerów, zasilaczy ani woluminów.
+      vendor:
+        name: "https://github.com/Bofursky/zabbix-templates/blob/main/templates/storage/7.0/lenovo-de4000-snmp-zabbix-7.0.yaml"
+        version: "7.0-1"
       groups:
         - name: Templates/Lenovo Storage
       items:
